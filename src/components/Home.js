@@ -1,18 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import '../App.css';
 
-export const Home = () => {
+import { addNewTeam, getTeamList } from '../store/actions/action';
 
+const Home = (props) => {
 
-    const addNewTeam = () => {
-        
-    }
+    const dispatch = useDispatch();
+    const teamList = useSelector((state) => { return state.teamList })
+
 
     const [title, setTitle] = useState('');
     const [editMode, seteditMode] = useState(false);
 
-    const handleSubmit = event => {}
+    // const handleSubmit = event => {
+    //     event.preventDefault();
+
+    //     props.addNewTeam({title:title});
+    // }
+
+    // useEffect(() => {
+    //   props.getTeamList();
+    // }, [])
+
+    useEffect(() => {
+        dispatch(getTeamList());
+    }, []);
+
+
 
 
     return (
@@ -30,11 +46,11 @@ export const Home = () => {
                     <legend><h1>Welcome Home</h1></legend>
                     <br />
                     <p>
-                        Service Team (0)  | 
+                        Service Team ({teamList.length})  | 
                         <a href='javascript:void(0)' onClick={ ()=> {seteditMode(!editMode)} }>{ (!editMode) ? 'Add New' : '' }</a>
                         {
                             (editMode) ?
-                                <form onSubmit={handleSubmit} style={{display: 'inline-flex'}}>
+                                // <form onSubmit={handleSubmit} style={{display: 'inline-flex'}}>
                                     <table cellSpacing={10}>
                                         <tr>
                                             <td><label>Title</label></td>
@@ -43,7 +59,14 @@ export const Home = () => {
                                                     onChange={(e) => { setTitle(e.target.value) }}
                                                 />
                                             </td>
-                                            <td><button type='submit'>Save</button></td>
+                                            {/* <td><button type='submit'>Save</button></td> */}
+                                            <td><button type='button' onClick={ ()=> {
+                                                console.log("start loader...");
+                                                dispatch(addNewTeam({title:title}))
+                                                .then(() => console.log('loader off...'))
+                                                .catch( err => console.log('loader off.....'));
+                                                setTitle('');
+                                            }}>Save</button></td>
                                             <td>{
                                                     (editMode) ? 
                                                         <button type='button' onClick={ ()=> {seteditMode(!editMode)} }>Close</button>
@@ -52,7 +75,7 @@ export const Home = () => {
                                             </td>
                                         </tr>
                                     </table>
-                                </form>
+                                // </form>
                             : null
                         }
                     </p>
@@ -61,3 +84,5 @@ export const Home = () => {
         </div>
     );
 }
+
+export default Home;

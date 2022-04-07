@@ -2,10 +2,15 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../App.css';
 import { Link } from 'react-router-dom';
+import { getTeamList, addNewTeam } from '../store/actions/action';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const ServiceTeam = () => {
 
-    const [teamList, setTeamList] = useState([]);
+    const dispatch = useDispatch();
+    const teamList = useSelector(state => state.teamList);
+
+    // const [teamList, setTeamList] = useState([]);
     const [title, setTitle] = useState('');
     const [item, setItem] = useState(null);
 
@@ -18,50 +23,55 @@ export const ServiceTeam = () => {
             data = {
                 title: title,
             };
+
+            dispatch(addNewTeam(data)).then(()=> setTitle(''));
+
         } else {
             data = {
                 id: item.id,
                 title: title
             };
         }
+        
+
+        // axios.post(`http://loepalace.astergo.in/api/createServiceTeam`, data)
+        //     .then(res => {
+
+        //         alert(res.data.msg);
+        //         setTitle('');
+        //         var temp;
+        //         if (item == null) {
+        //             temp = [...teamList, res.data.data];
+        //         } else {
+        //             // case 1 not effective we call api two times
+        //             // getServiceTeam();
+
+        //             // case 2 to update existing data set
+        //             temp = teamList.map(row => {
+        //                 if (row.id == item.id) {
+        //                     return res.data.data;
+        //                 }
+        //                 return row;
+        //             });
 
 
-        axios.post(`http://loepalace.astergo.in/api/createServiceTeam`, data)
-            .then(res => {
+        //         }
+        //         setTeamList(temp);
+        //         setItem(null);
 
-                alert(res.data.msg);
-                setTitle('');
-                var temp;
-                if (item == null) {
-                    temp = [...teamList, res.data.data];
-                } else {
-                    // case 1 not effective we call api two times
-                    // getServiceTeam();
-
-                    // case 2 to update existing data set
-                    temp = teamList.map(row => {
-                        if (row.id == item.id) {
-                            return res.data.data;
-                        }
-                        return row;
-                    });
-
-
-                }
-                setTeamList(temp);
-                setItem(null);
-
-            }).catch((err) => {
-                console.log(err);
-            });
+        //     }).catch((err) => {
+        //         console.log(err);
+        //     });
     }
 
     const getServiceTeam = () => {
-        axios.get(`http://loepalace.astergo.in/api/getServiceTeam`)
-            .then(res => {
-                // console.log(res.data);
-                setTeamList(res.data.data);
-            });
+        // axios.get(`http://loepalace.astergo.in/api/getServiceTeam`)
+        //     .then(res => {
+        //         // console.log(res.data);
+        //         setTeamList(res.data.data);
+        //     });
+        
+        dispatch(getTeamList());
     }
 
     useEffect(() => {
@@ -85,7 +95,7 @@ export const ServiceTeam = () => {
                     return true;
                 });
 
-                setTeamList(temp);
+                // setTeamList(temp);
 
             }).catch((err) => {
                 console.log(err);

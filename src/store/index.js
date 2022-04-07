@@ -1,11 +1,11 @@
 import {createStore , combineReducers, applyMiddleware} from 'redux'
 import ReduxThunk from "redux-thunk"
-
+import TeamReduces from './reducers/TeamReduces'
 
 //reducers
 
 const store = combineReducers({
-    
+    teamList: TeamReduces,
 });
 
 const middlewareStore = applyMiddleware (ReduxThunk)(createStore);

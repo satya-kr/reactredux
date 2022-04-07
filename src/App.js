@@ -3,8 +3,9 @@ import { render } from '@testing-library/react';
 import { Switch, Route } from 'react-router-dom';
 import './App.css';
 
-import { Home } from './components/Home';
+import Home from './components/Home';
 import { ServiceTeam } from './components/ServiceTeam';
+// import HomeContainer from './container/HomeContainer';
 
 
 function App() {

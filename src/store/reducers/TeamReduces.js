@@ -1,7 +1,12 @@
 const initialState = []; 
 
-export const teamList = (state = initialState, action) => {
+const TeamReduces = (state = initialState, action) => {
     switch(action.type) {
+        
+        case "GET":
+            return action.payload;
+        break;
+        
         case "ADD":
             return [
                 ...state,
@@ -18,3 +23,5 @@ export const teamList = (state = initialState, action) => {
         break;
     }
 }
+
+export default TeamReduces;
