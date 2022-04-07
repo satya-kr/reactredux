@@ -1,0 +1,19 @@
+* {
+    font-family: 'Poppins', sans-serif;
+}
+input, button {
+    border-radius: 0px !important;
+    border-width: 1px;
+}
+button {
+    cursor: pointer;
+}
+
+input {
+    outline: none;
+}
+
+.nav-item {
+    display: inline-flex;
+    margin: 0px 2px;
+}
